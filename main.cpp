@@ -3,6 +3,8 @@
 #include <list>
 #include <unordered_map>
 #include <fstream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 // int findVertexID(list<int> *eulerianCircuit,unordered_map<int,*Vertex> *graph);
@@ -60,24 +62,37 @@ int main(int argc, char const *argv[]) {
 
     //cout << graph.at(0)->outGoingEdges.top();
     if (isDegreesBalanced){
-        list<int> eulerianCircuit;
-        int currentV = startVertexID;
-        //int startVindex=0;
-        eulerianCircuit.push_back(currentV);
-        auto startingViterator = eulerianCircuit.begin();
-        for(auto vId : eulerianCircuit){
-            if(vId==currentV){
-                startingViterator++;
-                break;
-            }
-            startingViterator++;
+        for (int i = 0; i < numOfVertices; ++i)
+        {
+            sort(graph.at(i)->voutGoingEdges.begin(),graph.at(i)->voutGoingEdges.end());
         }
+        // for (int i = 0; i < numOfVertices; ++i)
+        // {
+        //     vector<int> v = graph.at(i)->voutGoingEdges;
+        //     for(auto x : v){
+        //         outfile << x << " ";
+        //     }
+        //     outfile << endl;
+        // }
+        list<int> eulerianCircuit;
+        //int currentV = startVertexID;
+        //int startVindex=0;
+        eulerianCircuit.push_back(startVertexID);
+        auto startingViterator = eulerianCircuit.begin();
+        startingViterator++;
+        // for(auto vId : eulerianCircuit){
+        //     if(vId==currentV){
+        //         startingViterator++;
+        //         break;
+        //     }
+        //     startingViterator++;
+        // }
         while(eulerianCircuit.size() <= totalNumOfEdges){
             list<int> tour;
-            while(graph.at(currentV)->hasNonUsedEdge()){
-                int endVertexID = graph.at(currentV)->getFirstNonUsedEdge();
-                currentV = endVertexID;
-                tour.push_back(currentV);
+            while(graph.at(startVertexID)->hasNonUsedEdge()){
+                int endVertexID = graph.at(startVertexID)->getFirstNonUsedEdge();
+                startVertexID = endVertexID;
+                tour.push_back(startVertexID);
             }
             //auto it = eulerianCircuit.end();
             // for (auto x : tour)
@@ -87,18 +102,18 @@ int main(int argc, char const *argv[]) {
             eulerianCircuit.splice(startingViterator,tour);// how this works ???
             auto it = eulerianCircuit.begin();
             //int newStartingVertex=currentV;
-            bool found = false;
+            //bool found = false;
             //bool f2 = false;
-            for(auto vertexID : eulerianCircuit){
-                if(graph.at(vertexID)->hasNonUsedEdge()){
-                    currentV = vertexID;
+            for(auto vID : eulerianCircuit){
+                if(graph.at(vID)->hasNonUsedEdge()){
+                    startVertexID = vID;
                     it++;
                     break;
                 }
                 it++;
             }
-            startingViterator = it;
             //currentV = newStartingVertex;
+            startingViterator = it;
             //cout << "heree" << endl;
             //startVertexID = findVertexID(&eulerianCircuit,&graph);
             //int index = 0;

@@ -6,24 +6,28 @@
 using namespace std;
 
 bool Vertex::hasNonUsedEdge(){//false if outgoing edges queue empty
-    return !outGoingEdges.empty();
+    return !voutGoingEdges.empty();
 }
 
 
 int Vertex::getFirstNonUsedEdge(){//look front of queue, pop it from queue
-    int endVertexID = outGoingEdges.top();
-    outGoingEdges.pop();
+    // int endVertexID = outGoingEdges.top();
+    // outGoingEdges.pop();
+    // return endVertexID;
+    int endVertexID = this->voutGoingEdges[0];
+    this->voutGoingEdges.erase(this->voutGoingEdges.begin());
     return endVertexID;
 }
-void Vertex::printV(){
-    for (int i = 0; i < outGoingEdges.size(); ++i){
-        cout << this->outGoingEdges.top();
-        outGoingEdges.pop();
-    }
-}
+// void Vertex::printV(){
+//     for (int i = 0; i < outGoingEdges.size(); ++i){
+//         cout << this->outGoingEdges.top();
+//         outGoingEdges.pop();
+//     }
+// }
 
 void Vertex::addEdge(int endVertexID){//ID of the end vertex
-    this->outGoingEdges.push(endVertexID);
+    //this->outGoingEdges.push(endVertexID);
+    this->voutGoingEdges.push_back(endVertexID);
 }
 
 

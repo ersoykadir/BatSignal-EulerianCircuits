@@ -11,7 +11,7 @@ using namespace std;
 class Vertex {
 
 public:
-    //vector<*Vertex> *outGoingEdges;//if an edge is traversed make it NULL in this list
+    vector<int> voutGoingEdges;//if an edge is traversed make it NULL in this list
     //bool hasNonUsedEdge();//Traverse outgoing edges and return false if there are non NULL values
     //int getFirstNonUsedEdge();//find the first non NUll value in outgoingedges list return its ID
     // class CompareVertices {// necessary if priority queue is composed of *Vertex
@@ -22,14 +22,14 @@ public:
     //        }
     //    };
     int vertexID;
-    priority_queue<int,vector<int>,greater<int>> outGoingEdges;//if an edge is traversed delete min from list
+    //priority_queue<int,vector<int>,greater<int>> outGoingEdges;//if an edge is traversed delete min from list
     bool hasNonUsedEdge();//false if outgoing edges queue empty
     int getFirstNonUsedEdge();//look front of queue, pop it from queue
     void addEdge(int endVertexID);
     void printV();
     Vertex(int _vertexID);
-    Vertex(const Vertex& Vertex);
-    Vertex& operator=(const Vertex& Vertex);
+    Vertex(const Vertex& vertex);
+    Vertex& operator=(const Vertex& vertex);
     ~Vertex();
 };
 
