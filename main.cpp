@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]) {
     //cout << numOfVertices<<endl;
     int* vertexArr = new int[numOfVertices];// array of zeros
     int totalNumOfEdges=0;
-    unordered_map<int,Vertex*> graph;
+    vector<Vertex*> graph;
     for (int i = 0; i < numOfVertices; ++i)
     {
         int vertexID,outDegree;
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[]) {
             vertexArr[endVertexID]--;// incoming edge
             v->addEdge(endVertexID);
         }
-        graph[vertexID] = v;
+        graph.push_back(v);
     }
     int startVertexID;
     infile >> startVertexID;
@@ -64,7 +64,7 @@ int main(int argc, char const *argv[]) {
     if (isDegreesBalanced){
         for (int i = 0; i < numOfVertices; ++i)
         {
-            sort(graph.at(i)->voutGoingEdges.begin(),graph.at(i)->voutGoingEdges.end());
+            sort(graph[i]->voutGoingEdges.begin(),graph[i]->voutGoingEdges.end());
         }
         // for (int i = 0; i < numOfVertices; ++i)
         // {
@@ -90,7 +90,7 @@ int main(int argc, char const *argv[]) {
         while(eulerianCircuit.size() <= totalNumOfEdges){
             list<int> tour;
             while(graph.at(startVertexID)->hasNonUsedEdge()){
-                int endVertexID = graph.at(startVertexID)->getFirstNonUsedEdge();
+                int endVertexID = graph[startVertexID]->getFirstNonUsedEdge();
                 startVertexID = endVertexID;
                 tour.push_back(startVertexID);
             }
@@ -105,7 +105,7 @@ int main(int argc, char const *argv[]) {
             //bool found = false;
             //bool f2 = false;
             for(auto vID : eulerianCircuit){
-                if(graph.at(vID)->hasNonUsedEdge()){
+                if(graph[vID]->hasNonUsedEdge()){
                     startVertexID = vID;
                     it++;
                     break;
