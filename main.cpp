@@ -62,10 +62,10 @@ int main(int argc, char const *argv[]) {
 
     //cout << graph.at(0)->outGoingEdges.top();
     if (isDegreesBalanced){
-        for (int i = 0; i < numOfVertices; ++i)
-        {
-            sort(graph[i]->voutGoingEdges.begin(),graph[i]->voutGoingEdges.end());
-        }
+        // for (int i = 0; i < numOfVertices; ++i)
+        // {
+        //     sort(graph[i]->voutGoingEdges.begin(),graph[i]->voutGoingEdges.end());
+        // }
         // for (int i = 0; i < numOfVertices; ++i)
         // {
         //     vector<int> v = graph.at(i)->voutGoingEdges;
