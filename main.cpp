@@ -87,6 +87,8 @@ int main(int argc, char const *argv[]) {
         //     }
         //     startingViterator++;
         // }
+        auto mockIterator = eulerianCircuit.begin();
+        //mockIterator++;
         while(eulerianCircuit.size() <= totalNumOfEdges){
             list<int> tour;
             while(graph.at(startVertexID)->hasNonUsedEdge()){
@@ -100,20 +102,29 @@ int main(int argc, char const *argv[]) {
             //     cout << x << " ";
             // }
             eulerianCircuit.splice(startingViterator,tour);// how this works ???
-            auto it = eulerianCircuit.begin();
+            //auto it = eulerianCircuit.begin();
             //int newStartingVertex=currentV;
             //bool found = false;
             //bool f2 = false;
-            for(auto vID : eulerianCircuit){
-                if(graph[vID]->hasNonUsedEdge()){
-                    startVertexID = vID;
-                    it++;
+            while(mockIterator!=eulerianCircuit.end()){
+                if(graph[*mockIterator]->hasNonUsedEdge()){
+                    startVertexID = *mockIterator;
+                    mockIterator++;
                     break;
                 }
-                it++;
+                mockIterator++;
             }
+            // for(auto vID : eulerianCircuit){
+            //     if(graph[vID]->hasNonUsedEdge()){
+            //         startVertexID = vID;
+            //         it++;
+            //         break;
+            //     }
+            //     it++;
+            // }
             //currentV = newStartingVertex;
-            startingViterator = it;
+            startingViterator = mockIterator;
+            mockIterator--;
             //cout << "heree" << endl;
             //startVertexID = findVertexID(&eulerianCircuit,&graph);
             //int index = 0;
