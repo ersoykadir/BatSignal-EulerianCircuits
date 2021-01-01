@@ -23,9 +23,11 @@ int main(int argc, char const *argv[]) {
     int numOfVertices=0;
     infile >> numOfVertices;
     //cout << numOfVertices<<endl;
-    int* vertexArr = new int[numOfVertices];// array of zeros
+    //int* vertexArr = new int[numOfVertices];// array of zeros
     int totalNumOfEdges=0;
-    vector<vector<int>> graphV(numOfVertices);
+    int balance = 0;
+    queue<int> * queArr = new queue<int>[numOfVertices];
+    //vector<queue<int>> graphV(numOfVertices);
 
     //vector<Vertex*> graph;
     for (int i = 0; i < numOfVertices; ++i)
@@ -33,19 +35,21 @@ int main(int argc, char const *argv[]) {
         int vertexID,outDegree;
         infile >> vertexID >> outDegree;
         totalNumOfEdges+=outDegree;
-        vertexArr[vertexID]+=outDegree;// for easy calculation of indegree outdegree balance;
+        //vertexArr[vertexID]+=outDegree;// for easy calculation of indegree outdegree balance;
         //Vertex* v = new Vertex(vertexID);
-
+        balance+=vertexID*outDegree;
         for (int j = 0; j < outDegree; ++j)//add edges to vertices, creating graph
         {
             int endVertexID;
             infile >> endVertexID;
-            vertexArr[endVertexID]--;// incoming edge
+            //vertexArr[endVertexID]--;// incoming edge
             //v->addEdge(endVertexID);
-            graphV[i].push_back(endVertexID);
+            balance-=endVertexID;
+            queArr[i].push(endVertexID);
         }
         //graph.push_back(v);
     }
+    cout << balance;
     int startVertexID;
     infile >> startVertexID;
 //    for (int i = 0; i < numOfVertices; ++i)
@@ -60,19 +64,19 @@ int main(int argc, char const *argv[]) {
     //     cout << endl;
     // }
     //cout << "heree" << endl;
-    bool isDegreesBalanced = true;
+    //bool isDegreesBalanced = true;
 
-    for (int i = 0; i < numOfVertices; ++i)
-    {
-        if(vertexArr[i]!=0){
-            isDegreesBalanced = false;
-            break;
-        }
-    }
+    // for (int i = 0; i < numOfVertices; ++i)
+    // {
+    //     if(vertexArr[i]!=0){
+    //         isDegreesBalanced = false;
+    //         break;
+    //     }
+    // }
     //cout << isDegreesBalanced << endl;
 
     //cout << graph.at(0)->outGoingEdges.top();
-    if (isDegreesBalanced){
+    if (balance ==0){
         // for (int i = 0; i < numOfVertices; ++i)
         // {
         //     sort(graph[i]->voutGoingEdges.begin(),graph[i]->voutGoingEdges.end());
@@ -102,9 +106,9 @@ int main(int argc, char const *argv[]) {
         //mockIterator++;
         while(eulerianCircuit.size() <= totalNumOfEdges){
             list<int> tour;
-            while(!graphV[startVertexID].empty()){
-                int endVertexID = graphV[startVertexID][0];
-                graphV[startVertexID].erase(graphV[startVertexID].begin());
+            while(!queArr[startVertexID].empty()){
+                int endVertexID = queArr[startVertexID].front();
+                queArr[startVertexID].pop();
                 startVertexID = endVertexID;
                 tour.push_back(startVertexID);
             }
@@ -120,7 +124,7 @@ int main(int argc, char const *argv[]) {
             //bool found = false;
             //bool f2 = false;
             while(mockIterator!=eulerianCircuit.end()){
-                if(!graphV[*mockIterator].empty()){
+                if(!queArr[*mockIterator].empty()){
                     startVertexID = *mockIterator;
                     mockIterator++;
                     break;
