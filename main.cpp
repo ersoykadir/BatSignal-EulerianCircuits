@@ -25,22 +25,26 @@ int main(int argc, char const *argv[]) {
     //cout << numOfVertices<<endl;
     int* vertexArr = new int[numOfVertices];// array of zeros
     int totalNumOfEdges=0;
-    vector<Vertex*> graph;
+    vector<vector<int>> graphV(numOfVertices);
+
+    //vector<Vertex*> graph;
     for (int i = 0; i < numOfVertices; ++i)
     {
         int vertexID,outDegree;
         infile >> vertexID >> outDegree;
         totalNumOfEdges+=outDegree;
         vertexArr[vertexID]+=outDegree;// for easy calculation of indegree outdegree balance;
-        Vertex* v = new Vertex(vertexID);
-        for (int i = 0; i < outDegree; ++i)//add edges to vertices, creating graph
+        //Vertex* v = new Vertex(vertexID);
+
+        for (int j = 0; j < outDegree; ++j)//add edges to vertices, creating graph
         {
             int endVertexID;
             infile >> endVertexID;
             vertexArr[endVertexID]--;// incoming edge
-            v->addEdge(endVertexID);
+            //v->addEdge(endVertexID);
+            graphV[i].push_back(endVertexID);
         }
-        graph.push_back(v);
+        //graph.push_back(v);
     }
     int startVertexID;
     infile >> startVertexID;
@@ -49,6 +53,13 @@ int main(int argc, char const *argv[]) {
 //        cout <<graph[i]->outGoingEdges.size();
 //    }
 //    cout <<  endl;
+    // for(auto v : graphV){
+    //     for(auto e : v){
+    //         cout << e <<  " ";
+    //     }
+    //     cout << endl;
+    // }
+    //cout << "heree" << endl;
     bool isDegreesBalanced = true;
 
     for (int i = 0; i < numOfVertices; ++i)
@@ -91,11 +102,13 @@ int main(int argc, char const *argv[]) {
         //mockIterator++;
         while(eulerianCircuit.size() <= totalNumOfEdges){
             list<int> tour;
-            while(graph.at(startVertexID)->hasNonUsedEdge()){
-                int endVertexID = graph[startVertexID]->getFirstNonUsedEdge();
+            while(!graphV[startVertexID].empty()){
+                int endVertexID = graphV[startVertexID][0];
+                graphV[startVertexID].erase(graphV[startVertexID].begin());
                 startVertexID = endVertexID;
                 tour.push_back(startVertexID);
             }
+
             //auto it = eulerianCircuit.end();
             // for (auto x : tour)
             // {
@@ -107,7 +120,7 @@ int main(int argc, char const *argv[]) {
             //bool found = false;
             //bool f2 = false;
             while(mockIterator!=eulerianCircuit.end()){
-                if(graph[*mockIterator]->hasNonUsedEdge()){
+                if(!graphV[*mockIterator].empty()){
                     startVertexID = *mockIterator;
                     mockIterator++;
                     break;
