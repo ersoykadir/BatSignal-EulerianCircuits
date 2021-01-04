@@ -40,7 +40,7 @@ int main(int argc, char const *argv[]) {
             queArr[i].push(endVertexID);
         }
     }
-    cout << balance;
+    //cout << balance;
     int startVertexID;
     fscanf(infile,"%i",&startVertexID);
 
